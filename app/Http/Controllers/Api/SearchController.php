@@ -12,7 +12,9 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('query');
-        $recipes = Recipe::where('name', 'like', '%' . $query . '%')->get();
+        $recipes = Recipe::with(['author'])
+            ->where('name', 'like', '%' . $query . '%')
+            ->get();
         return RecipeResource::collection($recipes);
     }
 }
